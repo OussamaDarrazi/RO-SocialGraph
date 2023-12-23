@@ -4,7 +4,7 @@ class MediaType(Enum):
     Video = 0
     Image = 1
     Post = 3
-
+#test
 
 class Interets(Enum):
     Sports = "sports"
