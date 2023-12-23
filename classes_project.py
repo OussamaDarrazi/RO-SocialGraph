@@ -1,25 +1,23 @@
-preferences = {
-    'Sports': 1, # chaque numero correspond a l'indice de chaque activites
-    'Gaming': 2,
-    'Fitness': 3,
-    'Science_and_Education': 4,
-    'Music': 5,
-    'Lifestyle_and_travel': 6,
-    'Culinary_Arts': 7,
-    'Photography': 8,
-    'Parenting': 9,
-    'Fashion': 10,
-    'Other': 11  # I added 'Other' with a value of 11, assuming it's the last option
-}     
+preferences = (('Sports', 1),
+               ('Gaming', 2),
+               ('Fitness', 3),
+               ('Science_and_Education', 4),
+               ('Music', 5),
+               ('Lifestyle_and_travel', 6),
+               ('Culinary_Arts', 7),
+               ('Photography', 8),
+               ('Parenting', 9),
+               ('Fashion', 10),
+               ('Other', 11))
+list_IAGI=[]      
 class Person:
     code_counter = 1  # Utilisation d'une variable de classe pour gérer le code de manière globale
-
     def __init__(self, nom, pref=None, amis=None, code=None):
         self.nom = nom
         self.code = Person.generate_code(code)
         self.pref = pref if pref is not None else []
         self.amis = amis if amis is not None else []
-
+        self.add_person_list()
     @classmethod
     def generate_code(cls, provided_code):
         if provided_code is not None:
@@ -28,12 +26,10 @@ class Person:
             generated_code = cls.code_counter
             cls.code_counter += 1
             return generated_code
-
+    def add_person_list(self)  :
+        list_IAGI.append((self.nom,self.code))  
     def get_code(self):
-        return self.code 
-    
-    
-      
+        return self.code      
 class graphe :
     n=0
     def __init__(self,taille):
