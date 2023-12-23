@@ -31,37 +31,52 @@ class graphe :
         for i in self.matrice_amis :
             i.append(0)
         graphe.n+=1
-        p1.code=graphe.n
         self.matrice_amis.append([0]*graphe.n)
         self.rel_person_preference.append([0]*len(preferences))         
     def get_relation(self,p1,p2):
         return self.matrice_amis[p1.code][p2.code]
-    def set_amis(self,p1) : 
+    def set_amis(self,p1,exsists=True) : 
+        n=p1.code if exsists else graphe.n-1
         for i in p1.amis :
-            self.matrice_amis[p1.code][i]= 1 # 1 c'est a dire amis 0 c'est a dire il ne sont pas amis  
-    def set_person_preference(self,p1): 
+            self.matrice_amis[n][i]= 1 # 1 c'est a dire amis 0 c'est a dire il ne sont pas amis  
+    def set_person_preference(self,p1,exsists=True): 
+        n=p1.code if exsists else graphe.n-1
         for i in p1.pref:
-           self.rel_person_preference[p1.code][i[0]]=i[1]                       
+            self.rel_person_preference[n][i[0]]=i[1]                       
     def add_ele(self,p1,exsist=True): 
         self.increment_num_matrice(p1) if not exsist else None
-        self.set_amis(p1) 
-        self.set_person_preference(p1)     
+        self.set_amis(p1,exsist) 
+        self.set_person_preference(p1,exsist)     
     def get_mean(self) :
         mean=0
         for i in self.rel_person_preference :
             for j in i :
                 mean+=j
         return mean/self.n**2 
+    def get_matrix(self):
+        return  {
+            'mat_amis':self.matrice_amis,
+            'mat_pref':self.rel_person_preference,
+        }
     
+# test data des personnes 
 
-        
-        
-          
-taille_IAGI=60
-relation_p_class=graphe(taille_IAGI)    
+# deuxieme list correspond au activite et de degre de realisation de cette activites
+
+
+
+p1=person('ahmed',[[1,2],[3,5],[7,8],[5,2]],[4,8])
+p2=person('ahmed',[[5,7],[2,4],[1,8]],[8])
+p3=person('ahmed',[[8,5]],[2])
     
+taille_IAGI=10
+relation_p_class=graphe(taille_IAGI)
+
+
+relation_p_class.add_ele(p1,False)    
+relation_p_class.add_ele(p2,True)
+relation_p_class.add_ele(p3,True) 
+matrix=relation_p_class.get_matrix()
             
 
     
-    
-        
