@@ -38,7 +38,6 @@ class ContentDelegate:
             cls._instance = super(ContentDelegate, cls).__new__(cls)
             # Init ici
         return cls._instance
-
     def add_content_to_content_base(self, content: Content):
         #TODO: ajouter la piece de contenu dans la base
         pass
@@ -99,3 +98,7 @@ user1.like_content(cnt2.id)
 
 cnt_dlg.suggest_content(user1.id)
 #output: cnt2 ou cnt4 (puisque l'utilisateur a aimé une piece de contenu fashion)
+
+b1=ContentDelegate()
+b2=ContentDelegate()
+print(b1 is b2)
