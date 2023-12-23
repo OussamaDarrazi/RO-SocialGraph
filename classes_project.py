@@ -11,16 +11,29 @@ preferences = {
     'Fashion': 10,
     'Other': 11  # I added 'Other' with a value of 11, assuming it's the last option
 }     
-class person() :
-    code=1
-    def __init__(self,nom,pref :list,amis):
-        self.non=nom
-        self.code=person.code#code de correspondance dans la matrice
-        person.code+=1
-        self.pref=pref  #preference
-        self.amis=amis#amis sous forme dun vecteur ligne
+class Person:
+    code_counter = 1  # Utilisation d'une variable de classe pour gérer le code de manière globale
+
+    def __init__(self, nom, pref=None, amis=None, code=None):
+        self.nom = nom
+        self.code = Person.generate_code(code)
+        self.pref = pref if pref is not None else []
+        self.amis = amis if amis is not None else []
+
+    @classmethod
+    def generate_code(cls, provided_code):
+        if provided_code is not None:
+            return provided_code
+        else:
+            generated_code = cls.code_counter
+            cls.code_counter += 1
+            return generated_code
+
     def get_code(self):
-        return self.code      
+        return self.code 
+    
+    
+      
 class graphe :
     n=0
     def __init__(self,taille):
@@ -36,13 +49,14 @@ class graphe :
     def get_relation(self,p1,p2):
         return self.matrice_amis[p1.code][p2.code]
     def set_amis(self,p1,exsists=True) : 
-        n=p1.code if exsists else graphe.n-1
+        n=p1.code if exsists else graphe.n
         for i in p1.amis :
-            self.matrice_amis[n][i]= 1 # 1 c'est a dire amis 0 c'est a dire il ne sont pas amis  
+            self.matrice_amis[n-1][i-1]= 1 # 1 c'est a dire amis 0 c'est a dire il ne sont pas amis
+            self.matrice_amis[i-1][n-1]= 1  
     def set_person_preference(self,p1,exsists=True): 
-        n=p1.code if exsists else graphe.n-1
+        n=p1.code if exsists else graphe.n
         for i in p1.pref:
-            self.rel_person_preference[n][i[0]]=i[1]                       
+            self.rel_person_preference[n-1][i[0]]=i[1]                       
     def add_ele(self,p1,exsist=True): 
         self.increment_num_matrice(p1) if not exsist else None
         self.set_amis(p1,exsist) 
@@ -53,7 +67,7 @@ class graphe :
             for j in i :
                 mean+=j
         return mean/self.n**2 
-    def get_matrix(self):
+    def get_matrix(self):# pour faire affichage des matrice
         return  {
             'mat_amis':self.matrice_amis,
             'mat_pref':self.rel_person_preference,
@@ -65,18 +79,6 @@ class graphe :
 
 
 
-p1=person('ahmed',[[1,2],[3,5],[7,8],[5,2]],[4,8])
-p2=person('ahmed',[[5,7],[2,4],[1,8]],[8])
-p3=person('ahmed',[[8,5]],[2])
-    
-taille_IAGI=10
-relation_p_class=graphe(taille_IAGI)
 
-
-relation_p_class.add_ele(p1,False)    
-relation_p_class.add_ele(p2,True)
-relation_p_class.add_ele(p3,True) 
-matrix=relation_p_class.get_matrix()
-            
 
     
