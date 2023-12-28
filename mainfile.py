@@ -17,7 +17,7 @@ p5=Person('yassin ahmed',
           ) #code 3 valeur par defaut
 taille_IAGI=4 # nombre d'etudiant 4
 relation_p_class=graphe(taille_IAGI)
-
+#raizel
 relation_p_class.add_ele(p1,False)    #nombre d'etudiant devient 5 parceque il n'est pas exsistant au prealable
 relation_p_class.add_ele(p2,True)
 relation_p_class.add_ele(p3,True)
