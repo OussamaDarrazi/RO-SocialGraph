@@ -24,7 +24,7 @@ class DATA_LISTE_IAGI :
             self.db.close()  
     def create_table(self) :
         self.cursor.execute("""create table if not exists liste_IAGI(
-                            id string,
+                            id string primary key ,
                             name string ,
                             pref string , 
                             amis string )""")
@@ -51,6 +51,7 @@ class DATA_LISTE_IAGI :
         for student_info in list_of_students:
             self.add_student(*student_info)
         
+        
 
     def add_student_df(self,dataframe) : 
         """
@@ -66,14 +67,16 @@ class DATA_LISTE_IAGI :
             # Exécuter la requête d'insertion avec les valeurs de la ligne actuelle
             self.cursor.execute(insert_query,(str(index),' '.join(list(row))) )
         self.db.commit()  
-    def update_data_student(self,
-                            values={"id_value":None,
-                                    "changed_value":None,
-                                    "New_value":None}):#update en cas de modification
-        self.cursor.execute("update liste_IAGI set (?)=(?) where id = (?) ",(values["changed_value"],
-                                                                               values["New_value"],
-                                                                               str(values["id_value"])))     
+        
+        
+        
+    def update_data_student(self,id_value=None,changed_value=None,New_value=None) :
+        #update en cas de modification
+        self.cursor.execute("UPDATE liste_IAGI SET {} = ? WHERE id = ?".format(changed_value),
+                        (New_value, str(id_value)))
         self.db.commit()
+        
+        
     def select_query(self,query):
         selected_values=self.cursor.execute(query).fetchall()
         return selected_values      
@@ -81,20 +84,21 @@ class DATA_LISTE_IAGI :
 
 
 
-"""
 our_data_base=DATA_LISTE_IAGI()            #to create your actual data base
 our_data_base.add_student_df(liste_iagi_excel)         #to add element to your data base    
-       
-        
+
+
+"""
         # Assuming you have a list of students, where each student is represented as a tuple
 students_to_add = [
-    ('John Doe', 62, 'Science', ['Alice', 'Bob']),
-    ('Jane Smith', 63, 'Art', ['Charlie', 'David']),
-    ('Alex Johnson', 64, 'Math', ['Eva', 'Frank']),
+    ('John Doe', 62, 'Science', ['50', '30']),
+    ('Jane Smith', 63, 'Art', ['40', '20']),
+    ('Alex Johnson', 64, 'Math', ['2', '1']),
     # ... add more students as needed
 ]
 
 # Now, you can use the add_students method
 our_data_base.add_students(students_to_add)
-        
-"""             
+our_data_base.update_data_student(1,"name","yassin ahmed")   #the modification test          
+""" 
+  
