@@ -5,8 +5,8 @@ from socialmedia.SocialGraph import SocialGraph
 class User:
     id_cnt=0
     Users = []
-    def __init__(self, username: str, interests: list[Interests]) -> None:
-        self.__suggestQueue = FriendSuggestionQueue()
+    def __init__(self, username: str, interests: set[Interests]) -> None:
+        self.suggestQueue = FriendSuggestionQueue()
         self.id = User.id_cnt
         User.id_cnt+=1
         self.username = username
@@ -14,38 +14,39 @@ class User:
         User.Users.append(self)
 
 
-    def addFriend(self, graph: SocialGraph):
-        '''
-        use establishFriendshipBetween from the graph to add friendship
-        '''
+    def addFriend(self, friend,  graph: SocialGraph):
+        coeff = .1 #TODO: calculating the friendship coefficient
+        graph.establishFriendshipBetween(self, friend, coeff)
+
+        #getting friends of friend to push them to suggestion memory
+        friends_of_friend = friend.getFriends(graph)
+        for frnd_of_frnd in friends_of_friend:
+            priority_coeff = .1 #TODO: implement equation to calculate priority coefficient
+            self.__suggestQueue.PushFriendSuggests(frnd_of_frnd, priority_coeff)
         
 
     def getFriends(self, graph: SocialGraph) -> list:
-        '''
-        return list of of ids of friends
-        '''
+        return [usr for usr in User.Users if self.isFriendOf(usr)]
+            
         
 
     def isFriendOf(self, user, graph: SocialGraph) -> bool:
-        ...
+        return graph.getFriendshipCoeff(self, user)>0
+    
+
+    def getCommunInterests(self, user) -> set(Interests):
+        return self.interests.intersection(user.interests)
         
-    def getCommunInterests(self, user) -> list(Interests):
-
-        ...
-
+#!!!!!!!!!!!!!!!important heapq is a min heap
 class FriendSuggestionQueue:
     def __init__(self) -> None:
         self.__suggestMemory = []
 
     def PushFriendSuggests(self, user: User, priority: float):
-        '''
-        implement a max heap/priority queue to push friends of friends into __suggestMemory
-        '''
+        heapq.heappush(self.__suggestMemory, (priority, user))
 
     def PopFriendSuggest(self) -> User:
-        '''
-        implement a max heap/priority queue to pop friends from friends into __suggestMemory
-        '''
+        return heapq.heappop(self.__suggestMemory)[1]
 
     def __len__(self):
         return len(self.__suggestMemory)
