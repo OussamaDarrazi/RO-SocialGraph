@@ -6,4 +6,4 @@ class FriendSuggestionDelegate:
         '''
         use the friend suggestion queue to pop friend suggestion
         '''
-        ...
+        return user.suggestQueue.PopFriendSuggest()
