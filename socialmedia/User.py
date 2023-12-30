@@ -48,4 +48,4 @@ class FriendSuggestionQueue:
         '''
 
     def __len__(self):
-        return len(len(self.__suggestMemory))
+        return len(self.__suggestMemory)
