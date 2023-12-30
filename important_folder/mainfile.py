@@ -1,4 +1,4 @@
-from classes_project import *  
+from important_folder.classes_project import *  
 
 p1=Person('ibrahim goumrane',
           [[1,2],[3,5],[7,8],[5,2]]
