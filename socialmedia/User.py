@@ -22,10 +22,10 @@ class User:
         friends_of_friend = friend.getFriends(graph)
         for frnd_of_frnd in friends_of_friend:
             priority_coeff = .1 #TODO: implement equation to calculate priority coefficient
-            self.__suggestQueue.PushFriendSuggests(frnd_of_frnd, priority_coeff)
+            self.suggestQueue.PushFriendSuggests(frnd_of_frnd, priority_coeff)
         
 
-    def getFriends(self, graph: SocialGraph) -> list:
+    def getFriends(self) -> list:
         return [usr for usr in User.Users if self.isFriendOf(usr)]
             
         
