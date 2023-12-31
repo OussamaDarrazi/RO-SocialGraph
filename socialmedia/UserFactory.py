@@ -1,5 +1,5 @@
 from socialmedia import User as usr
-import important_folder.date_base_etudiant_iagi as db
+import database.date_base_etudiant_iagi as db
 from socialmedia.Interests import Interests
 
 db = db.DATA_LISTE_IAGI()
