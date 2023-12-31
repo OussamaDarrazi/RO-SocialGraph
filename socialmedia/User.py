@@ -16,7 +16,7 @@ class User:
 
     def addFriend(self, friend,  graph: SocialGraph):
         coeff = .1 #TODO: calculating the friendship coefficient
-        graph.establishFriendshipBetween(self, friend, coeff)
+        graph.establishFriendshipBetween(self.id, friend.id, coeff)
 
         #getting friends of friend to push them to suggestion memory
         friends_of_friend = friend.getFriends(graph)
@@ -31,7 +31,7 @@ class User:
         
 
     def isFriendOf(self, user, graph: SocialGraph) -> bool:
-        return graph.getFriendshipCoeff(self, user)>0
+        return graph.getFriendshipCoeff(self.id, user.id)>0
     
 
     def getCommunInterests(self, user) -> set(Interests):
