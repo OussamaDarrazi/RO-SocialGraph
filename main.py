@@ -2,28 +2,27 @@ from socialmedia import User as usr
 from socialmedia.FriendSuggestionDelegate import FriendSuggestionDelegate
 from socialmedia.SocialGraph import SocialGraph
 from socialmedia.Interests import Interests
+from UserFactory import UserFactory
 #defining users in 
 
-user1 = usr.User("Oussama Darrazi", [Interests.Music, Interests.Science_and_education, Interests.Culinary_arts])
-user2 = usr.User("Ibrahim Goumrane", [Interests.Gaming, Interests.Science_and_education])
-user3 = usr.User("Ismail Moufatih", [Interests.Gaming, Interests.Music, Interests.Photography, Interests.Fitness])
-user4 = usr.User("Name lastname1", [Interests.Lifestyle_and_travel])
-user5 = usr.User("Name lastname2", [Interests.Culinary_arts])
-user6 = usr.User("Name lastname3", [Interests.Music])
-user7 = usr.User("Name lastname4", [Interests.Parenting])
-user8 = usr.User("Name lastname5", [Interests.Other])
+# usr.User(1,"Darrazi Oussama", {Interests.Music, Interests.Science_and_education, Interests.Culinary_arts})
+# usr.User(2,"Goumrane Ibrahim", {Interests.Gaming, Interests.Science_and_education})
+# usr.User(3,"Moufatih Ismail", {Interests.Gaming, Interests.Music, Interests.Photography, Interests.Fitness})
+# usr.User(4,"Name lastname1", {Interests.Lifestyle_and_travel})
+# usr.User(5,"Name lastname2", {Interests.Culinary_arts})
+# usr.User(6,"Name lastname3", {Interests.Music})
+# usr.User(7,"Name lastname4", {Interests.Parenting})
+# usr.User(8,"Name lastname5", {Interests.Other})
 
-
-
+UserFactory.usersFromDB()
 
 #testing userbase
 for _ in usr.User.Users:
-    print(_.username) 
+    print(_.id, _.username) 
+
 
 
 #testing commun interests
-user1.getCommunInterests(user2)
-user4.getCommunInterests(user8)
 
 #testing friendship functions
 
