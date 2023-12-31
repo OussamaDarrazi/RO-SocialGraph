@@ -7,7 +7,7 @@ import math
 
 class DATA_LISTE_IAGI :
     def __init__(self):
-        self.db=sqlite3.connect("important_folder/IAGI_class.db")
+        self.db=sqlite3.connect("database/IAGI_class.db")
         self.cursor=self.db.cursor()
         self.create_table()
         
