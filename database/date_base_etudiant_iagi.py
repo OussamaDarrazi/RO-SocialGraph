@@ -1,16 +1,13 @@
 import sqlite3 
-import pandas as pd
 import random
 import math
-
-liste_iagi_excel=pd.read_excel("liste_iagi_1.xlsx") #transform excel file into a pandas data frame
 
 
 
 
 class DATA_LISTE_IAGI :
     def __init__(self):
-        self.db=sqlite3.connect("IAGI_class.db")
+        self.db=sqlite3.connect("database/IAGI_class.db")
         self.cursor=self.db.cursor()
         self.create_table()
         
