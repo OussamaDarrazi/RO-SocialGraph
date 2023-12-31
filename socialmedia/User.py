@@ -5,10 +5,11 @@ from socialmedia.SocialGraph import SocialGraph
 class User:
     id_cnt=0
     Users = []
-    def __init__(self, username: str, interests: set[Interests]) -> None:
+    def __init__(self, id=None, username: str="", interests: set[Interests]=[]) -> None:
         self.suggestQueue = FriendSuggestionQueue()
-        self.id = User.id_cnt
-        User.id_cnt+=1
+        self.id = id
+        # self.id = User.id_cnt
+        # User.id_cnt+=1
         self.username = username
         self.interests = interests
         User.Users.append(self)
@@ -43,10 +44,11 @@ class FriendSuggestionQueue:
         self.__suggestMemory = []
 
     def PushFriendSuggests(self, user: User, priority: float):
-        heapq.heappush(self.__suggestMemory, (priority, user))
+        heapq.heappush(self.__suggestMemory, (1-priority, user))
 
     def PopFriendSuggest(self) -> User:
         return heapq.heappop(self.__suggestMemory)[1]
 
     def __len__(self):
         return len(self.__suggestMemory)
+    
