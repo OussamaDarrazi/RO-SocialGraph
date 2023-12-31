@@ -5,8 +5,8 @@ class SocialGraph:
     def loadFriendshipFromMatrix(self, mat: list[list[float]]):
         self.friendshipMatrix = mat
     
-    def establishFriendshipBetween(self, user1, user2, coeff: float=.1):
+    def establishFriendshipBetween(self, user1Id: int, user2Id: int, coeff: float=.1):
         ...
     
-    def getFriendshipCoeff(self, user1, user2) -> float:
+    def getFriendshipCoeff(self, user1Id: int, user2Id: int) -> float:
         ...
