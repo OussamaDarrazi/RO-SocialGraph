@@ -16,13 +16,6 @@ import matplotlib.pyplot as plt
 db=DATA_LISTE_IAGI()
 
 class SocialGraph:
-    _instance=None # in order to know if an object has already been initialize
-    def __new__(cls,num_students) -> None:
-        if cls._instance is None :
-            SocialGraph._instance=super(SocialGraph,cls).__new__(cls)
-          #  SocialGraph.__init__(SocialGraph._instance,num_students)
-        return SocialGraph._instance    
-    
     def __init__(self,num_students) -> None:
         self.num_students=num_students
         self.friendshipMatrix =self.matrice_initialisation()  # creation of the friendship matrix initialised by 0
@@ -69,7 +62,3 @@ class SocialGraph:
         
         
 liste_iagi=SocialGraph(62) 
-liste_iagi2=SocialGraph(62)  
-print(liste_iagi2 is liste_iagi)  
-liste_iagi.loadFriendships_from_db()
-print(liste_iagi.friendshipMatrix)
