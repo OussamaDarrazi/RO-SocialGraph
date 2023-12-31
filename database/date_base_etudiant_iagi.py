@@ -1,19 +1,22 @@
 import sqlite3 
 import random
-import math
 
 
 
 
 class DATA_LISTE_IAGI :
+    _instance=None # in order to know if an object has already been initialize
+    def __new__(cls) -> None:
+        if cls._instance is None :
+            DATA_LISTE_IAGI._instance=super(DATA_LISTE_IAGI,cls).__new__(cls)
+        return DATA_LISTE_IAGI._instance 
+    
     def __init__(self):
         self.db=sqlite3.connect("database/IAGI_class.db")
         self.cursor=self.db.cursor()
         self.create_table()
         
-        
-   
-    def close_connection(self):
+    def __del__(self):
         #close the data base connection
         if self.cursor:
             self.cursor.close()
@@ -187,7 +190,6 @@ class DATA_LISTE_IAGI :
         for id in range(number_of_students) :
             self.initialiser_friendship(id+1)
         self.cursor.execute("select * from students_friendships ORDER BY id_person asc")    
-our_data_base=DATA_LISTE_IAGI()   #to create your actual data base
 
 
 """ 

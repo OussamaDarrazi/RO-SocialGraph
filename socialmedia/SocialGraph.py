@@ -1,53 +1,75 @@
+import sys
+from pathlib import Path
+
+# Add the directory containing 'database' to sys.path
+sys.path.append(str(Path(__file__).resolve().parents[1]))
+
+# Now you can import from 'database'
+from database.date_base_etudiant_iagi import DATA_LISTE_IAGI
+
+# Use 'something_in_database' in your code
 import networkx as nx
 import matplotlib.pyplot as plt
+
+
+
+db=DATA_LISTE_IAGI()
+
 class SocialGraph:
-    
     _instance=None # in order to know if an object has already been initialize
-    def __new__(cls) -> None:
+    def __new__(cls,num_students) -> None:
         if cls._instance is None :
             SocialGraph._instance=super(SocialGraph,cls).__new__(cls)
+          #  SocialGraph.__init__(SocialGraph._instance,num_students)
         return SocialGraph._instance    
     
     def __init__(self,num_students) -> None:
-        self.num_student=num_students
-        self.friendshipMatrix =self.matrice_0_initialisation()  # creation of the friendship matrix initialised by 0
-        self.diagonal_1_initialisation()
+        self.num_students=num_students
+        self.friendshipMatrix =self.matrice_initialisation()  # creation of the friendship matrix initialised by 0
         
-    def matrice_0_initialisation(self)  :
-        return  [[0]*self.num_students for _ in range(self.num_students)] 
+    def matrice_initialisation(self)  :
+        matrix=[[0]*self.num_students for _ in range(self.num_students)]
+        for i in range(self.num_students):
+           matrix[i][i] = 1
+        return   matrix
+
     
-    
-    def diagonal_1_initialisation(self) :
-        for i in range(self.num_student):
-            self.friendshipMatrix[i][i] = 1
+    def loadFriendship_from_db(self,row)  : 
+        self.establishFriendshipBetween(*row)
             
-            
-    def loadFriendship_from_db(self,db_object)  : 
-        pass      
-    
+    def loadFriendships_from_db(self)  : 
+        query = """
+        select * from students_friendships 
+        """
+        rows=db.select_query(query) 
+        for index,row in enumerate(rows) :
+            if index%2!=0:
+                self.loadFriendship_from_db(row)   
     def loadFriendship(self, friendships: list[list[float]]):
         for friendship in friendships :
             try :
-                self.friendshipMatrix[friendship[0]][friendship[1]]=friendship[2] 
-                self.friendshipMatrix[friendship[1]][friendship[0]]=friendship[2]
+                self.friendshipMatrix[friendship[0]-1][friendship[1]-1]=friendship[2] 
+                self.friendshipMatrix[friendship[1]-1][friendship[0]-1]=friendship[2]
             except Exception as e :
                 print(f"error establishing friendship : {e}")  
               
                 
-    def establishFriendshipBetween(self, user1Id: int, user2Id: int, coeff: float=.1):
-        if user1Id <self.num_student and user2Id < self.num_student :
-            self.friendshipMatrix[user1Id][user2Id]=coeff
-            self.friendshipMatrix[user2Id][user1Id]=coeff
+    def establishFriendshipBetween(self, user1Id: int, user2Id: int, coeff: float=.1 ):
+        if user1Id <= self.num_students and user2Id <= self.num_students :
+            self.friendshipMatrix[user1Id-1][user2Id-1]=coeff
+            self.friendshipMatrix[user2Id-1][user1Id-1]=coeff
         else :
-            print("student not enrolled in this class")    
+            print("{},{}student not enrolled in this class".format(user1Id,user2Id))    
         print("operation done .")
             
     def getFriendshipCoeff(self, user1Id: int, user2Id: int) -> float:
-        return self.friendshipMatrix[user1Id][user2Id]
+        return self.friendshipMatrix[user1Id-1][user2Id-1]
      
       
         
         
-liste_iagi=SocialGraph(62)    
-liste_iagi.loadFriendship([[1,2,0.9]
-                                    ,[2,3,0.5]])   
+liste_iagi=SocialGraph(62) 
+liste_iagi2=SocialGraph(62)  
+print(liste_iagi2 is liste_iagi)  
+liste_iagi.loadFriendships_from_db()
+print(liste_iagi.friendshipMatrix)
