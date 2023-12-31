@@ -2,7 +2,7 @@ from socialmedia import User as usr
 from socialmedia.FriendSuggestionDelegate import FriendSuggestionDelegate
 from socialmedia.SocialGraph import SocialGraph
 from socialmedia.Interests import Interests
-from UserFactory import UserFactory
+from socialmedia.UserFactory import UserFactory
 #defining users in 
 
 # usr.User(1,"Darrazi Oussama", {Interests.Music, Interests.Science_and_education, Interests.Culinary_arts})
