@@ -130,8 +130,10 @@ class DATA_LISTE_IAGI :
     def initialiser_preferences(self,number_of_students) :
          for i in range(1,number_of_students+1):
              self.initialiser_preference(i)    
+           
+           
              
-               
+    #initialiser la table friendship  
     def generation_aleatoire_amis(self, id):
         class FRIEND:
             def __init__(self, id_friend, friendship_deg):
@@ -161,9 +163,6 @@ class DATA_LISTE_IAGI :
                 new_friends.append(FRIEND(id_friend, friendship_deg))
             generated_friends.add(id_friend)
         return [id, new_friends]
-
-    
-    #initialiser la table friendship
     def initialiser_friendship(self, id):
         # Génération des amis de la personne qui possède l'id
         friendship = self.generation_aleatoire_amis(id)
@@ -187,7 +186,6 @@ class DATA_LISTE_IAGI :
         except Exception as e:
             print(f"Error adding friend: {e}")
             self.db.rollback()
-    
     def initialiser_friendships(self,number_of_students)    :
         for id in range(number_of_students) :
             self.initialiser_friendship(id+1)
@@ -198,18 +196,5 @@ our_data_base=DATA_LISTE_IAGI()   #to create your actual data base
 """ 
 our_data_base.add_student_df(liste_iagi_excel)         #to add element to your data base    
 our_data_base.initialiser_preferences(62)
-our_data_base.initialiser_friendships(62)
- 
-       # Assuming you have a list of students, where each student is represented as a tuple
-students_to_add = [
-    ('John Doe', 62, 'Science', ['50', '30']),
-    ('Jane Smith', 63, 'Art', ['40', '20']),
-    ('Alex Johnson', 64, 'Math', ['2', '1']),
-    # ... add more students as needed
-]
-
-# Now, you can use the add_students method
-#our_data_base.add_students(students_to_add)
-
-#our_data_base.update_data_student(1,"name","yassin ahmed")   #the modification test          
-  """
+our_data_base.initialiser_friendships(62)      
+"""
