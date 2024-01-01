@@ -1,6 +1,6 @@
 import sys
 from pathlib import Path
-
+import os
 # Add the directory containing 'database' to sys.path
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 
@@ -87,8 +87,18 @@ class SocialGraph:
         labels = nx.get_edge_attributes(G, 'weight')
         nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
 
+        choice =int(input("save the graphe type not 0")) 
+        if choice :
+            self.save_png("./socialmedia/photo.png")            
         # Display the graph
         plt.show()
+    def save_png(self,filename) : #to save the  figure  (take the path as an argument)
+        if not os.path.isfile(filename):
+            plt.savefig(filename)
+            print(f"Figure saved as {filename}")
+        else:
+            print(f"File '{filename}' already exists. Figure not saved to avoid overwriting.")
+
 
             
       
