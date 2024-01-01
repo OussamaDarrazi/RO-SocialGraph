@@ -11,7 +11,7 @@ from database.date_base_etudiant_iagi import DATA_LISTE_IAGI
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
-import User as usr
+
 
 
 
@@ -58,19 +58,30 @@ class SocialGraph:
             
     def getFriendshipCoeff(self, user1Id: int, user2Id: int) -> float:
         return self.friendshipMatrix[user1Id-1][user2Id-1]
-    def draw_social_graph(self):
-        G = nx.DiGraph()
-        G.add_nodes_from(usr.User.Users[i].username for i in range(self.num_students)) # Add the nodes
+    def draw_social_graph(self,User : object):
+        
+        G = nx.Graph()
+        G.add_nodes_from(User.Users[i].username for i in range(self.num_students)) # Add the nodes
 
         for student in range(self.num_students):
             for friend in range(student):
                 if student != friend and self.friendshipMatrix[student][friend] != 0:
                     edge_weight = self.friendshipMatrix[student][friend]
-                    G.add_weighted_edges_from([(usr.User.Users[student].username, usr.User.Users[friend].username, edge_weight)])
+                    G.add_weighted_edges_from([(User.Users[student].username, User.Users[friend].username, edge_weight)])
 
         pos = nx.spring_layout(G)  # You can choose other layout algorithms
         # Draw nodes
-        nx.draw(G, pos, with_labels=True, node_size=400, node_color="green")
+        nx.draw(
+            G,
+            pos,
+            with_labels=True,
+            node_size=600,
+            node_color="green",
+            font_color="black",
+            font_size=5,  # Adjust the font size as needed
+            font_family='sans-serif',  # Choose the font family
+            font_weight='bold',  # Choose the font weight
+        )
 
         # Draw edges with weights
         labels = nx.get_edge_attributes(G, 'weight')
@@ -82,8 +93,3 @@ class SocialGraph:
             
       
         
-        
-liste_iagi=SocialGraph(8) 
-liste_iagi.loadFriendships_from_db()
-print(liste_iagi.friendshipMatrix)
-liste_iagi.draw_social_graph()
