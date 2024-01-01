@@ -10,7 +10,7 @@ class UserFactory:
         interest_set = set([Interests(index+1) for index, val in enumerate(row[2:]) if val == 1])
         return usr.User(row[0], row[1], interest_set)
         
-    
+    @staticmethod
     def usersFromDB():
         qr = """
         select e.id, e.name, i.Sports, i.Gaming, i.Fitness, i.Science_and_education, i.Music, i.Lifestyle_and_travel, i.Culinary_arts, i.Photography, i.Parenting, i.Fashion, i.Other
