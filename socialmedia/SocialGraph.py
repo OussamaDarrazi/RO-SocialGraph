@@ -9,7 +9,10 @@ from database.date_base_etudiant_iagi import DATA_LISTE_IAGI
 
 # Use 'something_in_database' in your code
 import networkx as nx
+import numpy as np
 import matplotlib.pyplot as plt
+import User as usr
+
 
 
 
@@ -50,15 +53,37 @@ class SocialGraph:
     def establishFriendshipBetween(self, user1Id: int, user2Id: int, coeff: float=.1 ):
         if user1Id <= self.num_students and user2Id <= self.num_students :
             self.friendshipMatrix[user1Id-1][user2Id-1]=coeff
-            self.friendshipMatrix[user2Id-1][user1Id-1]=coeff
-        else :
-            print("{},{}student not enrolled in this class".format(user1Id,user2Id))    
+            self.friendshipMatrix[user2Id-1][user1Id-1]=coeff 
         print("operation done .")
             
     def getFriendshipCoeff(self, user1Id: int, user2Id: int) -> float:
         return self.friendshipMatrix[user1Id-1][user2Id-1]
-     
+    def draw_social_graph(self):
+        G = nx.DiGraph()
+        G.add_nodes_from(usr.User.Users[i].username for i in range(self.num_students)) # Add the nodes
+
+        for student in range(self.num_students):
+            for friend in range(student):
+                if student != friend and self.friendshipMatrix[student][friend] != 0:
+                    edge_weight = self.friendshipMatrix[student][friend]
+                    G.add_weighted_edges_from([(usr.User.Users[student].username, usr.User.Users[friend].username, edge_weight)])
+
+        pos = nx.spring_layout(G)  # You can choose other layout algorithms
+        # Draw nodes
+        nx.draw(G, pos, with_labels=True, node_size=400, node_color="green")
+
+        # Draw edges with weights
+        labels = nx.get_edge_attributes(G, 'weight')
+        nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
+
+        # Display the graph
+        plt.show()
+
+            
       
         
         
-liste_iagi=SocialGraph(62) 
+liste_iagi=SocialGraph(8) 
+liste_iagi.loadFriendships_from_db()
+print(liste_iagi.friendshipMatrix)
+liste_iagi.draw_social_graph()
