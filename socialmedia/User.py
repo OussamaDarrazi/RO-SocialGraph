@@ -1,6 +1,6 @@
 import heapq
-from socialmedia.Interests import Interests
-from socialmedia.SocialGraph import SocialGraph
+from Interests import Interests
+from SocialGraph import SocialGraph
 
 class User:
     id_cnt=0
@@ -52,3 +52,5 @@ class FriendSuggestionQueue:
     def __len__(self):
         return len(self.__suggestMemory)
     
+
+

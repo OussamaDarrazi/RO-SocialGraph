@@ -1,6 +1,7 @@
-from socialmedia import User as usr
+import User as usr
 import database.date_base_etudiant_iagi as db
-from socialmedia.Interests import Interests
+from SocialGraph import SocialGraph
+from Interests import Interests
 
 db = db.DATA_LISTE_IAGI()
 
@@ -24,7 +25,10 @@ class UserFactory:
             UserFactory.userFromRow(row)
         
     
-
+UserFactory.usersFromDB()    
+liste_iagi=SocialGraph(8) 
+liste_iagi.loadFriendships_from_db()
+liste_iagi.draw_social_graph(usr.User)
 
 
 
