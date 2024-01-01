@@ -5,7 +5,7 @@ from socialmedia.SocialGraph import SocialGraph
 class User:
     id_cnt=0
     Users = []
-    def __init__(self, id=None, username: str="", interests: set[Interests]=[]) -> None:
+    def __init__(self, id=None, username: str="", interests: set[Interests]=set()) -> None:
         self.suggestQueue = FriendSuggestionQueue()
         self.id = id
         # self.id = User.id_cnt
