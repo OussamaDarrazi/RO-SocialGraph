@@ -58,6 +58,8 @@ class SocialGraph:
             
     def getFriendshipCoeff(self, user1Id: int, user2Id: int) -> float:
         return self.friendshipMatrix[user1Id-1][user2Id-1]
+    
+
     def draw_social_graph(self,User : object):
         
         G = nx.Graph()
@@ -82,16 +84,12 @@ class SocialGraph:
             font_family='sans-serif',  # Choose the font family
             font_weight='bold',  # Choose the font weight
         )
-
         # Draw edges with weights
         labels = nx.get_edge_attributes(G, 'weight')
-        nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
-
-        choice =int(input("save the graphe type not 0")) 
-        if choice :
-            self.save_png("./socialmedia/photo.png")            
+        nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)           
         # Display the graph
         plt.show()
+
     def save_png(self,filename) : #to save the  figure  (take the path as an argument)
         if not os.path.isfile(filename):
             plt.savefig(filename)

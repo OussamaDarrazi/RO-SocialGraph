@@ -26,7 +26,7 @@ class UserFactory:
         
     
 UserFactory.usersFromDB()    
-liste_iagi=SocialGraph(8) 
+liste_iagi=SocialGraph(62) 
 liste_iagi.loadFriendships_from_db()
 liste_iagi.draw_social_graph(usr.User)
 
