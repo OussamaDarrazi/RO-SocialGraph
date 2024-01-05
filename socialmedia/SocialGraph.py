@@ -32,28 +32,49 @@ class CustomSettings(Enum):
 
 
 class SocialGraph:
+    num_students=None
+    #we need only one instance of the socialgraphe class cause there is only one graphe
+    _instance=None
+    @classmethod
+    # def __new__(cls, *args, **kwargs) -> object:
+    #     if cls._instance is None :
+    #         cls._instance=super(SocialGraph,cls).__new__(cls)
+    #     return cls._instance    
     def __init__(self,num_students) -> None:
-        self.num_students=num_students
-        self.friendshipMatrix =self.matrice_initialisation()  # creation of the friendship matrix initialised by 0
+#      if not hasattr(self, 'initialized'):
+            self.num_students=num_students
+            SocialGraph.num_students=num_students
+            self.friendshipMatrix =self.matrice_initialisation()  # creation of the friendship matrix initialised by 0
         
     def matrice_initialisation(self)  :
         matrix=[[0]*self.num_students for _ in range(self.num_students)]
         for i in range(self.num_students):
            matrix[i][i] = 1
         return   matrix
+    def add_student_matrix(self): #to add more student dynamically to the matrix
+        # Add a new row for the new student
+        new_row = [0] * (SocialGraph.num_students + 1)
+        self.friendshipMatrix.append(new_row)
 
-    
-    def loadFriendship_from_db(self,row)  : 
-        self.establishFriendshipBetween(*row)
+        # Add a new column for the new student in existing rows
+        for row in self.friendshipMatrix:
+            row.append(0)
+
+        # Update the number of students in the graph
+        SocialGraph.num_students += 1
+    def loadFriendship_from_db(self,friends)  : 
+        for friend in friends :
+            self.establishFriendshipBetween(*friend)
             
     def loadFriendships_from_db(self)  : 
-        query = """
-        select * from students_friendships 
-        """
-        rows=db.select_query(query) 
-        for index,row in enumerate(rows) :
-            if index%2!=0:
-                self.loadFriendship_from_db(row)   
+        for id_person in range(1,self.num_students+1)  :
+            query_friends="""
+                select * from students_friendships 
+                where id_person={}
+                """.format(id_person)
+            friends=db.select_query(query_friends) 
+            self.loadFriendship_from_db(friends)      
+
     def loadFriendship(self, friendships: list[list[float]]):
         for friendship in friendships :
             try :
@@ -62,19 +83,20 @@ class SocialGraph:
             except Exception as e :
                 print(f"error establishing friendship : {e}")  
               
-                
+
+
     def establishFriendshipBetween(self, user1Id: int, user2Id: int, coeff: float=.1 ):
         if user1Id <= self.num_students and user2Id <= self.num_students :
             self.friendshipMatrix[user1Id-1][user2Id-1]=coeff
             self.friendshipMatrix[user2Id-1][user1Id-1]=coeff 
         print("operation done .")
-            
+
+
     def getFriendshipCoeff(self, user1Id: int, user2Id: int) -> float:
         return self.friendshipMatrix[user1Id-1][user2Id-1]
     
 
-
-
+                                    #drawing methods 
     def draw_social_graph(self,User : object)->object:  
         G = nx.Graph()
         G.add_nodes_from(User.Users[i].username for i in range(self.num_students)) # Add the nodes
@@ -138,6 +160,13 @@ class SocialGraph:
             print(f"File '{filename}' already exists. Figure not saved to avoid overwriting.")
 
 
-            
-      
-        
+
+
+
+                        #test data
+query='''
+    select max(id) from liste_IAGI
+'''
+class_size=int((db.select_query(query))[0][0]) # to select the actual length of your class
+liste_iagi=SocialGraph(class_size) 
+liste_iagi.loadFriendships_from_db()            
