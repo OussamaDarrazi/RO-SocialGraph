@@ -68,7 +68,7 @@ class SocialGraph:
         if user1Id <= self.num_students and user2Id <= self.num_students :
             self.friendshipMatrix[user1Id-1][user2Id-1]=coeff
             self.friendshipMatrix[user2Id-1][user1Id-1]=coeff 
-        print("operation done .")
+        
             
     def getFriendshipCoeff(self, user1Id: int, user2Id: int) -> float:
         return self.friendshipMatrix[user1Id-1][user2Id-1]
@@ -140,5 +140,14 @@ class SocialGraph:
 
 
             
-      
+    ####graphics
+            
+    def render(self):
+        ...
+
+    def show(self):
+        ...
+
+    def save(self):
+        ...
         

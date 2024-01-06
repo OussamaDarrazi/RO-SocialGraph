@@ -1,6 +1,7 @@
 import heapq
-from Interests import Interests
-from SocialGraph import SocialGraph
+from socialmedia.Interests import Interests
+from socialmedia.SocialGraph import SocialGraph
+import random
 
 class User:
     id_cnt=0
@@ -16,18 +17,19 @@ class User:
 
 
     def addFriend(self, friend,  graph: SocialGraph):
-        coeff = .1 #TODO: calculating the friendship coefficient
+        coeff = random.random() #TODO: calculating the friendship coefficient
         graph.establishFriendshipBetween(self.id, friend.id, coeff)
 
         #getting friends of friend to push them to suggestion memory
         friends_of_friend = friend.getFriends(graph)
         for frnd_of_frnd in friends_of_friend:
-            priority_coeff = .1 #TODO: implement equation to calculate priority coefficient
-            self.suggestQueue.PushFriendSuggests(frnd_of_frnd, priority_coeff)
+            if not frnd_of_frnd is self and not self.isFriendOf(frnd_of_frnd, graph):
+                priority_coeff = random.random() #TODO: implement equation to calculate priority coefficient
+                self.suggestQueue.PushFriendSuggests(frnd_of_frnd, priority_coeff)
         
 
-    def getFriends(self) -> list:
-        return [usr for usr in User.Users if self.isFriendOf(usr)]
+    def getFriends(self, graph) -> list:
+        return [usr for usr in User.Users if self.isFriendOf(usr, graph)]
             
         
 
