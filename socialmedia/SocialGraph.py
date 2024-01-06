@@ -46,7 +46,7 @@ class SocialGraph:
     def loadFriendship_from_db(self,row)  : 
         self.establishFriendshipBetween(*row)
             
-    def loadFriendships_from_db(self)  : 
+    def loadFriendships_from_db(self, db)  : 
         query = """
         select * from students_friendships 
         """
@@ -54,6 +54,7 @@ class SocialGraph:
         for index,row in enumerate(rows) :
             if index%2!=0:
                 self.loadFriendship_from_db(row)   
+    
     def loadFriendship(self, friendships: list[list[float]]):
         for friendship in friendships :
             try :
