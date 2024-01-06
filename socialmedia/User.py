@@ -29,13 +29,16 @@ class User:
         
 
     def getFriends(self, graph) -> list:
-        return [usr for usr in User.Users if self.isFriendOf(usr, graph)]
+        return {usr for usr in User.Users if self.isFriendOf(usr, graph)}
             
         
 
     def isFriendOf(self, user, graph: SocialGraph) -> bool:
         return graph.getFriendshipCoeff(self.id, user.id)>0
     
+    def getCommunFriends(self, user) -> set:
+        return self.getFriends().intersection(user.getFriends())
+
 
     def getCommunInterests(self, user) -> set(Interests):
         return self.interests.intersection(user.interests)
