@@ -28,7 +28,7 @@ class UserFactory:
 UserFactory.usersFromDB()   
 usr.User.loadFriendships_from_db()
 #print(usr.User.class_student.friendshipMatrix) 
-#print(usr.User.Users[0].suggestQueue.get_suggestMemory())
+print(usr.User.Users[0].suggestQueue.get_suggestMemory())
 
 # G=liste_iagi.draw_person_graph(usr.User,14)
 # liste_iagi.show_customized_graphe(G)
