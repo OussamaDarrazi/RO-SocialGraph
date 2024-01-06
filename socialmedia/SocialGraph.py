@@ -66,12 +66,12 @@ class SocialGraph:
                 
     def establishFriendshipBetween(self, user1Id: int, user2Id: int, coeff: float=.1 ):
         if user1Id <= self.num_students and user2Id <= self.num_students :
-            self.friendshipMatrix[user1Id-1][user2Id-1]=coeff
-            self.friendshipMatrix[user2Id-1][user1Id-1]=coeff 
+            self.friendshipMatrix[user1Id][user2Id]=coeff
+            self.friendshipMatrix[user2Id][user1Id]=coeff 
         
             
     def getFriendshipCoeff(self, user1Id: int, user2Id: int) -> float:
-        return self.friendshipMatrix[user1Id-1][user2Id-1]
+        return self.friendshipMatrix[user1Id][user2Id]
     
 
 
