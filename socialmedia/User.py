@@ -44,13 +44,14 @@ class User:
             #getting friends of friend to push them to suggestion memory
             friends_of_friend =  User.Users[friend-1].getFriends()
             for frnd_of_frnd in friends_of_friend:
-                priority_coeff = .1 #TODO: implement equation to calculate priority coefficient
-                self.suggestQueue.PushFriendSuggests(frnd_of_frnd, priority_coeff)
+                if frnd_of_frnd is not self :
+                    priority_coeff = .1 #TODO: implement equation to calculate priority coefficient
+                    self.suggestQueue.PushFriendSuggests(frnd_of_frnd, priority_coeff)
             
 
 
     def getFriends(self) -> list:
-        return [usr for usr in User.Users if self.isFriendOf(usr)]
+        return [usr for usr in User.Users if self.isFriendOf(usr) ]
             
         
 
