@@ -69,7 +69,7 @@ class FriendSuggestionQueue:
         """
         pour eliminer des utilisateurs qe la file a volonté
         """
-        self.__suggestMemory = [(_, usr) for _, usr in self.__suggestMemory if usr != user]
+        self.__suggestMemory = [(_, usr) for (_, usr) in self.__suggestMemory if usr != user]
 
     def PushFriendSuggests(self, user: User, priority: float):
         heapq.heappush(self.__suggestMemory, (round(1-priority, ndigits=2), user))
