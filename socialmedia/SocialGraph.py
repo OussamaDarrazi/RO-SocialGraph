@@ -159,7 +159,15 @@ class SocialGraph:
         self.G = nx.from_numpy_array(matrix, create_using=nx.Graph)
         pos = nx.circular_layout(self.G)
         plt.figure(figsize=(20,10))
-        nx.draw(self.G, pos = pos, with_labels = True, node_color = colors, labels = labels, font_color = "black")
+        # nx.draw(self.G, pos = pos, with_labels = True, node_color = colors, labels = labels, font_color = "black", font_size = 20)
+        
+        edge_labels = {(i, j): matrix[i, j] for i, j in zip(*matrix.nonzero()) if i < j}
+        edge_widths = [3*matrix[i, j] for i, j in zip(*matrix.nonzero()) if i < j]
+
+        nx.draw_networkx_edge_labels(self.G, pos=pos, edge_labels=edge_labels, font_color="black", font_size = 14)
+        nx.draw(self.G, pos=pos, with_labels=True, node_color=colors, labels=labels, font_color="black", width=edge_widths, edge_color='black', font_size=14, node_size = 2000)
+
+        
         legend_labels = {
             "blue": "Utilisateur Actuel",
             "yellow": "Amis",
