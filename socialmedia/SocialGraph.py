@@ -158,7 +158,7 @@ class SocialGraph:
                 colors.append("grey")
         self.G = nx.from_numpy_array(matrix, create_using=nx.Graph)
         pos = nx.circular_layout(self.G)
-        plt.figure(figsize=(20,11))
+        plt.figure(figsize=(20,10))
         nx.draw(self.G, pos = pos, with_labels = True, node_color = colors, labels = labels, font_color = "black")
         legend_labels = {
             "blue": "Utilisateur Actuel",
