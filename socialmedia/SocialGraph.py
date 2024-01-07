@@ -160,6 +160,14 @@ class SocialGraph:
         pos = nx.circular_layout(self.G)
         plt.figure(figsize=(20,11))
         nx.draw(self.G, pos = pos, with_labels = True, node_color = colors, labels = labels, font_color = "black")
+        legend_labels = {
+            "blue": "Utilisateur Actuel",
+            "yellow": "Amis",
+            "grey": "Non-Amis"
+        }
+        legend_elements = [plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=color, markersize=10, label=label)
+                           for color, label in legend_labels.items()]
+        plt.legend(handles=legend_elements, loc='upper right')
 
     def show(self):
         plt.show()
