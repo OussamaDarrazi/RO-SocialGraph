@@ -1,6 +1,7 @@
 import sys
 from pathlib import Path
 import os
+import numpy as np
 # Add the directory containing 'database' to sys.path
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 
@@ -34,12 +35,13 @@ class CustomSettings(Enum):
 class SocialGraph:
     def __init__(self,num_students) -> None:
         self.num_students=num_students
-        self.friendshipMatrix =self.matrice_initialisation()  # creation of the friendship matrix initialised by 0
+        self.friendshipMatrix =self.matrice_initialisation()
+        self.G = None  # creation of the friendship matrix initialised by 0
         
     def matrice_initialisation(self)  :
         matrix=[[0]*self.num_students for _ in range(self.num_students)]
-        for i in range(self.num_students):
-           matrix[i][i] = 1
+        # for i in range(self.num_students):
+        #    matrix[i][i] = 1
         return   matrix
 
     
@@ -142,12 +144,26 @@ class SocialGraph:
             
     ####graphics
             
-    def render(self):
-        ...
+    def render(self, users: list, currentUserId):
+        colors = []
+        labels = {}
+        matrix = np.array(self.friendshipMatrix)
+        for usr in users:
+            labels[usr.id] = usr.username
+            if usr.id == currentUserId:
+                colors.append("blue")
+            elif users[currentUserId].isFriendOf(usr, self):
+                colors.append("yellow")
+            else:
+                colors.append("grey")
+        self.G = nx.from_numpy_array(matrix, create_using=nx.Graph)
+        pos = nx.circular_layout(self.G)
+        plt.figure(figsize=(20,11))
+        nx.draw(self.G, pos = pos, with_labels = True, node_color = colors, labels = labels, font_color = "black")
 
     def show(self):
-        ...
+        plt.show()
 
-    def save(self):
-        ...
+    def save(self, filename):
+        plt.savefig(filename)
         
