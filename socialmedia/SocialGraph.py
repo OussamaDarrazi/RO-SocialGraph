@@ -1,21 +1,14 @@
 import sys
 from pathlib import Path
 import os
-import numpy as np
-# Add the directory containing 'database' to sys.path
 sys.path.append(str(Path(__file__).resolve().parents[1]))
-
-# Now you can import from 'database'
 from database.date_base_etudiant_iagi import DATA_LISTE_IAGI
-
-# Use 'something_in_database' in your code
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
 from enum import Enum
 
 db=DATA_LISTE_IAGI()
-
 
 
 #to change the values of the graphe you can use enum value method 
@@ -122,9 +115,9 @@ class SocialGraph:
             node_size=CustomSettings.node_size.value,
             node_color=CustomSettings.node_color.value,
             font_color=CustomSettings.font_color.value,
-            font_size=CustomSettings.font_size.value,  # Adjust the font size as needed
-            font_family=CustomSettings.font_family.value,  # Choose the font family
-            font_weight=CustomSettings.font_weight.value,  # Choose the font weight
+            font_size=CustomSettings.font_size.value,  
+            font_family=CustomSettings.font_family.value,
+            font_weight=CustomSettings.font_weight.value,   
             width=list(edge_widths.values()), #edges width
             edge_color=edge_colors # edges color
         )
@@ -133,7 +126,7 @@ class SocialGraph:
         nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)           
         # Display the graph
         plt.show()
-    def save_png(self,filename) : #to save the  figure  (take the path as an argument)
+    def save_png(self,filename) : #to save the figure (take the path as an argument)
         if not os.path.isfile(filename):
             plt.savefig(filename)
             print(f"Figure saved as {filename}")
