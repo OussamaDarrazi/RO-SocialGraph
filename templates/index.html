@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="http://www.ensam-casa.ma/assets/images/ensam2.png" type="image/x-icon">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+    <title>Réseau Social IAGI</title>
+</head>
+<body>
+<h1 class="m-2">Simulation Système de Suggestion Réseau Social</h1>
+
+<h3 class="m-2">Hello, {{currentUser.username}}</h3>
+
+<div class="container-fluid mt-5">
+    <div class="row justify-content-between">
+        <div class="col w-25">
+            <table class="table table-bordered ">
+                <tbody>
+                    <tr>
+                        <th colspan="2">File de Suggestion</th>
+                    </tr>
+                    {% for suggestion in suggestions%}
+                    <tr>
+                        <td>{{suggestion[1].username}}</td>
+                        <td>{{suggestion[0]}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col">
+            
+            <div class="card">
+                <div class="card-header">
+                  <strong>Connaissez vous?</strong>
+                </div>
+                <div class="card-body">
+                    {%if suggestion %}
+                  <p class="card-text">Connaissez vous <strong><em>{{suggestion.username}}</em></strong>?</p>
+                  <p class="card-text">Amis en commun: {{communFriends|join(",")}}</p>
+                  <p class="card-text">Interets en commun: {{communInterests|join(",")}}</p>
+                  <a class="btn btn-primary" href="./accept/{{suggestion.id}}">Ajouter</a>
+                <a class="btn btn-secondary" href="/skip">Skip</a>
+                {%else%}
+                <p class="card-text">La file de suggestion est vide :(</p>
+                {%endif%}
+                </div>
+
+              </div>
+              
+        </div>
+
+        <div class="col w-25">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th colspan="2">Amis</th>
+                    </tr>
+                    {% for friend in friends%}
+                    <tr>
+                        <td>{{friend.username}}</td>
+                        <td>{{graphe.friendshipMatrix[currentUser.id][friend.id]}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+    
+<h2 class="m-2">Graphe</h2>
+<img src="" alt="" width="100vw">
+</body>
+</html>
