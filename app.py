@@ -33,8 +33,8 @@ usr.User.Users[0].addFriend(usr.User.Users[3], graphe)
 usr.User.Users[0].addFriend(usr.User.Users[1], graphe)
 
 app = Flask(__name__)
-id=0
-currentUser = usr.User.Users[id]
+uid=0
+currentUser = usr.User.Users[uid]
 
 @app.route("/")
 def index():
@@ -43,6 +43,9 @@ def index():
     suggestion = suggestions[0][1] if len(suggestions) else None
     communFriends=[fr.username for fr in currentUser.getCommunFriends(suggestion, graphe)] if suggestion else None
     communInterests = [innt.name for innt  in currentUser.getCommunInterests(suggestion)] if suggestion else None
+    graphe.render(usr.User.Users, uid)
+    # graphe.show()
+    graphe.save("./static/img/graphe.png")
     return render_template("index.html", currentUser = currentUser, friends=friends, suggestions=suggestions, suggestion = suggestion,communFriends=communFriends, communInterests=communInterests,graphe=graphe)
 
 @app.route("/accept/<int:id>")
