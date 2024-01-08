@@ -42,7 +42,7 @@ class User:
             common_friends_weight * common_friends_normalized
         )
 
-        return friendship_coefficient
+        return round(friendship_coefficient,ndigits=2)
     
     def addFriend(self, friend,  graph: SocialGraph):
         coeff = self.calculateFriendshipCoefficient(friend, graph)
@@ -54,7 +54,7 @@ class User:
         friends_of_friend = friend.getFriends(graph)
         for frnd_of_frnd in friends_of_friend:
             if frnd_of_frnd.id != self.id and not self.isFriendOf(frnd_of_frnd, graph) and frnd_of_frnd not in self.suggestQueue:
-                priority_coeff = random.random()
+                priority_coeff = self.calculateFriendshipCoefficient(frnd_of_frnd,graph)
                 self.suggestQueue.PushFriendSuggests(frnd_of_frnd, priority_coeff)
         
 
