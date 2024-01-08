@@ -20,9 +20,32 @@ class User:
         pour comparer les utilisateurs a la base de leurs id (utilisé par la file)
         """
         return self.id < other.id
+    
+    def calculateFriendshipCoefficient(self, friend, graph):
+        """
+        Calculate friendship coefficient based on shared interests and common friends.
+        Adjust the weights based on the importance of each factor.
+        """
+        shared_interests_weight = 0.6
+        common_friends_weight = 0.4
+    
+        shared_interests = len(self.getCommunInterests(friend))
+        common_friends = len(self.getCommunFriends(friend, graph))
 
+        # Normalize values between 0 and 1
+        shared_interests_normalized = shared_interests / len(self.interests)
+        common_friends_normalized = common_friends / len(User.Users)
+
+        # Calculate friendship coefficient
+        friendship_coefficient = (
+            shared_interests_weight * shared_interests_normalized +
+            common_friends_weight * common_friends_normalized
+        )
+
+        return friendship_coefficient
+    
     def addFriend(self, friend,  graph: SocialGraph):
-        coeff = round(random.random(), ndigits=2) #TODO: calculating the friendship coefficient
+        coeff = self.calculateFriendshipCoefficient(friend, graph)
         graph.establishFriendshipBetween(self.id, friend.id, coeff)
         #removing from queue if it's there
         if friend in self.suggestQueue:
@@ -31,7 +54,7 @@ class User:
         friends_of_friend = friend.getFriends(graph)
         for frnd_of_frnd in friends_of_friend:
             if frnd_of_frnd.id != self.id and not self.isFriendOf(frnd_of_frnd, graph) and frnd_of_frnd not in self.suggestQueue:
-                priority_coeff = random.random() #TODO: implement equation to calculate priority coefficient
+                priority_coeff = random.random()
                 self.suggestQueue.PushFriendSuggests(frnd_of_frnd, priority_coeff)
         
 
