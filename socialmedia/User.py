@@ -26,15 +26,15 @@ class User:
         Calculate friendship coefficient based on shared interests and common friends.
         Adjust the weights based on the importance of each factor.
         """
-        shared_interests_weight = 0.6
-        common_friends_weight = 0.4
+        shared_interests_weight = 0.4
+        common_friends_weight = 0.6
     
         shared_interests = len(self.getCommunInterests(friend))
         common_friends = len(self.getCommunFriends(friend, graph))
 
         # Normalize values between 0 and 1
         shared_interests_normalized = shared_interests / len(self.interests)
-        common_friends_normalized = common_friends / len(User.Users)
+        common_friends_normalized = common_friends / len(self.getFriends(graph))
 
         # Calculate friendship coefficient
         friendship_coefficient = (
@@ -42,7 +42,7 @@ class User:
             common_friends_weight * common_friends_normalized
         )
 
-        return round(friendship_coefficient,ndigits=2)
+        return max(round(friendship_coefficient,ndigits=2), 0.01)
     
     def addFriend(self, friend,  graph: SocialGraph):
         coeff = self.calculateFriendshipCoefficient(friend, graph)
