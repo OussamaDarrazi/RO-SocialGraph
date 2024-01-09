@@ -2,7 +2,6 @@
 from flask import Flask, redirect, render_template
 #social media dependencies
 from socialmedia import User as usr
-from socialmedia.FriendSuggestionDelegate import FriendSuggestionDelegate
 from socialmedia.SocialGraph import SocialGraph
 from socialmedia.Interests import Interests
 #defining users
