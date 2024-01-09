@@ -2,13 +2,11 @@ import sys
 from pathlib import Path
 import os
 sys.path.append(str(Path(__file__).resolve().parents[1]))
-from database.date_base_etudiant_iagi import DATA_LISTE_IAGI
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
 from enum import Enum
 
-db=DATA_LISTE_IAGI()
 
 
 #to change the values of the graphe you can use enum value method 
