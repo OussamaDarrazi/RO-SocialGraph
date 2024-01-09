@@ -34,7 +34,7 @@ class User:
 
         # Normalize values between 0 and 1
         shared_interests_normalized = shared_interests / len(self.interests)
-        common_friends_normalized = common_friends / len(self.getFriends(graph))
+        common_friends_normalized = common_friends / len(self.getFriends(graph)) if len(self.getFriends(graph)) else 0
 
         # Calculate friendship coefficient
         friendship_coefficient = (
