@@ -29,13 +29,10 @@ def friendships():
     usr.User(14, "Khaidar Ibrahim", {Interests.Gaming, Interests.Fashion, Interests.Music})
     #creation des amitiés
     print(len(usr.User.Users))
-    for i in range(14, -1, -1):
+    for i in range(13, -1, -1):
         uid1 = i
-        for j in range(random.randint(2, 5)): #creer entre 5 est 15 amis
-            #pour ne pas generer des connections avec soi même
-            uid2=random.randint(0, 14)
-            if(uid1==uid2):
-                continue
+        for j in range(random.randint(2, 5)): #creer entre 1 est 3 amis
+            uid2=random.randint(i+1, 14)
             usr.User.Users[uid1].addFriend(usr.User.Users[uid2], graphe)
 
 
