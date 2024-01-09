@@ -6,32 +6,41 @@ from socialmedia.FriendSuggestionDelegate import FriendSuggestionDelegate
 from socialmedia.SocialGraph import SocialGraph
 from socialmedia.Interests import Interests
 #defining users
-usr.User(0,"Darrazi Oussama", {Interests.Music, Interests.Science_and_education, Interests.Culinary_arts})
-usr.User(1,"Goumrane Ibrahim", {Interests.Gaming, Interests.Science_and_education, Interests.Science_and_education})
-usr.User(2,"Moufatih Ismail", {Interests.Gaming, Interests.Music, Interests.Photography, Interests.Fitness, Interests.Science_and_education})
-usr.User(3,"Miahi Othmane", {Interests.Lifestyle_and_travel})
-usr.User(4,"Tahiri Meryem", {Interests.Culinary_arts})
-usr.User(5,"Loro Triomphe", {Interests.Music})
-usr.User(6,"Chaffaa Mohammed", {Interests.Parenting})
-usr.User(7,"Dahouz Fatima", {Interests.Science_and_education})
-graphe = SocialGraph(8)
-#creation des amitiés
-usr.User.Users[2].addFriend(usr.User.Users[4], graphe)
-usr.User.Users[2].addFriend(usr.User.Users[1], graphe)
-usr.User.Users[2].addFriend(usr.User.Users[5], graphe)
-usr.User.Users[2].addFriend(usr.User.Users[7], graphe)
 
-usr.User.Users[5].addFriend(usr.User.Users[3], graphe)
-usr.User.Users[5].addFriend(usr.User.Users[6], graphe)
+graphe = SocialGraph(15)
+def friendships():
+    """
+    generer des utilisateurs, et des amities
+    """
+    import random
+    usr.User(0,"Darrazi Oussama", {Interests.Music, Interests.Science_and_education, Interests.Culinary_arts})
+    usr.User(1,"Goumrane Ibrahim", {Interests.Gaming, Interests.Science_and_education, Interests.Other})
+    usr.User(2,"Moufatih Ismail", {Interests.Gaming, Interests.Music, Interests.Photography, Interests.Fitness, Interests.Science_and_education})
+    usr.User(3,"Miahi Othmane", {Interests.Lifestyle_and_travel})
+    usr.User(4,"Tahiri Meryem", {Interests.Culinary_arts})
+    usr.User(5,"Loro Triomphe", {Interests.Music, Interests.Sports})
+    usr.User(6,"Chaffaa Mohammed", {Interests.Lifestyle_and_travel, Interests.Gaming})
+    usr.User(7,"Dahouz Fatima", {Interests.Science_and_education, Interests.Music, Interests.Parenting})
+    usr.User(8, "Hajji Lamiaa", {Interests.Science_and_education, Interests.Fashion, Interests.Parenting})
+    usr.User(9, "Mourad Taha", {Interests.Science_and_education, Interests.Other})
+    usr.User(10, "Fikri Saad", {Interests.Culinary_arts, Interests.Fashion})
+    usr.User(11, "Nadiri Nada", {Interests.Sports, Interests.Culinary_arts, Interests.Fitness})
+    usr.User(12, "Chakir Achraf", {Interests.Music, Interests.Photography})
+    usr.User(13, "Assiri Ikram", {Interests.Lifestyle_and_travel, Interests.Fashion, Interests.Music})
+    usr.User(14, "Khaidar Ibrahim", {Interests.Gaming, Interests.Fashion, Interests.Music})
+    #creation des amitiés
+    print(len(usr.User.Users))
+    for i in range(14, -1, -1):
+        uid1 = i
+        for j in range(random.randint(2, 5)): #creer entre 5 est 15 amis
+            #pour ne pas generer des connections avec soi même
+            uid2=random.randint(0, 14)
+            if(uid1==uid2):
+                continue
+            usr.User.Users[uid1].addFriend(usr.User.Users[uid2], graphe)
 
-usr.User.Users[7].addFriend(usr.User.Users[3], graphe)
-usr.User.Users[7].addFriend(usr.User.Users[6], graphe)
-usr.User.Users[7].addFriend(usr.User.Users[5], graphe)
 
-usr.User.Users[0].addFriend(usr.User.Users[5], graphe)
-usr.User.Users[0].addFriend(usr.User.Users[3], graphe)
-usr.User.Users[0].addFriend(usr.User.Users[1], graphe)
-
+friendships()
 app = Flask(__name__)
 uid=0
 currentUser = usr.User.Users[uid]
